@@ -58,6 +58,7 @@ jobs:
         run:  |
           python .ci/build-ios.py
       - name: iOS artifact
+        if: startsWith(matrix.os, 'macos')
         uses: actions/upload-artifact@v2
         with:
           name: ios-${{ matrix.os }}
