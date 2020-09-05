@@ -1,0 +1,11 @@
+include(default)
+
+[settings]
+os=Android
+compiler=clang
+compiler.version=9
+compiler.cppstd=17
+compiler.libcxx=c++_static
+
+arch=x86
+os.api_level=16
