@@ -34,7 +34,7 @@ jobs:
         run: |
             python -m pip install --upgrade pip setuptools wheel
             pip install conan conan_package_tools
-            conan remote add conan-burrito ${CONAN_UPLOAD}
+            conan remote add conan-burrito ${{ env.CONAN_UPLOAD }}
             conan user -p ${{ env.CONAN_PASSWORD }} -r conan-burrito ${{ env.CONAN_LOGIN_USERNAME }}
 
       - name: Build native
