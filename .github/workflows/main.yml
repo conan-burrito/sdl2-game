@@ -38,7 +38,7 @@ jobs:
             conan user -p ${{ env.CONAN_PASSWORD }} -r conan-burrito ${{ env.CONAN_LOGIN_USERNAME }}
 
       - name: Build native
-        run:  python ${{ github.workspace }}/.ci/biuld-native.py
+        run:  python ${{ github.workspace }}/.ci/build-native.py
       - name: Native artifact
         uses: actions/upload-artifact@v2
         with:
