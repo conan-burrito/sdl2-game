@@ -49,10 +49,11 @@ jobs:
         uses: malinskiy/action-android/install-sdk@release/0.0.7
       - name: Setup requirements
         run: |
-            sdkmanager --list
-            sdkmanager "ndk-bundle;21.3.6528147"
-            sdkmanager "cmake;3.10.2"
-            sdkmanager "platforms;android-29"
+          sdkmanager --list
+          sdkmanager "ndk-bundle"
+          sdkmanager "platform-tools"
+          sdkmanager "cmake;3.10.2.4988404"
+          sdkmanager "platforms;android-29"
       - name: Build for Android
         run:  python .ci/build-android.py
       - name: Android artifact
