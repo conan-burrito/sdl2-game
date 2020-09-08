@@ -45,6 +45,12 @@ jobs:
           name: native-${{ matrix.os }}
           path: _build/bin/
 
+      - name: Setup Android SDK
+        uses: malinskiy/action-android/install-sdk@release/0.0.7
+        run: |
+            sdkmanager "ndk-bundle;21.3.6528147"
+            sdkmanager "cmake;3.10.2"
+            sdkmanager "platforms;android-29"
       - name: Build for Android
         run:  python .ci/build-android.py
       - name: Android artifact

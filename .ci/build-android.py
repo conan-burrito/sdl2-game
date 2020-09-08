@@ -1,5 +1,9 @@
 import os
-
+import platform
 
 os.chdir('android')
-os.system('./gradlew assemble')
+if platform.system() == 'Windows':
+    os.system('./gradlew assemble')
+else:
+    os.system('gradlew.bat assemble')
+
