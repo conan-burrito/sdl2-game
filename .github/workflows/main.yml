@@ -28,7 +28,7 @@ jobs:
         run:  python ${{ github.workspace }}/.ci/build-native.py
       - uses: actions/upload-artifact@v2
         with:
-          name: native-${{ matrix.os }}
+          name: native-windows
           path: _build/bin/
 
   macos:
@@ -48,7 +48,7 @@ jobs:
         run:  python ${{ github.workspace }}/.ci/build-native.py
       - uses: actions/upload-artifact@v2
         with:
-          name: native-${{ matrix.os }}
+          name: native-macos
           path: _build/bin/
       - name: Get Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.0.7
@@ -64,14 +64,14 @@ jobs:
       - name: Android artifact
         uses: actions/upload-artifact@v2
         with:
-          name: android-${{ matrix.os }}
+          name: android-macos
           path: android/app/build/outputs/apk/
       - name: Build for iOS
         run:  |
           python .ci/build-ios.py
       - uses: actions/upload-artifact@v2
         with:
-          name: ios-${{ matrix.os }}
+          name: ios
           path: _build/bin/
 
   ubuntu:
@@ -91,6 +91,6 @@ jobs:
         run:  python ${{ github.workspace }}/.ci/build-native.py
       - uses: actions/upload-artifact@v2
         with:
-          name: native-${{ matrix.os }}
+          name: native-ubuntu
           path: _build/bin/
 
