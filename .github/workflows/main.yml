@@ -34,11 +34,11 @@ jobs:
         run: |
             python -m pip install --upgrade pip setuptools wheel
             pip install conan conan_package_tools
-            conan remote add conan-burrito ${CONAN_UPLOAD}
+            conan remote add conan-burrito ${{ env.CONAN_UPLOAD }}
             conan user -p ${{ env.CONAN_PASSWORD }} -r conan-burrito ${{ env.CONAN_LOGIN_USERNAME }}
 
       - name: Build native
-        run:  python ${{ github.workspace }}/.ci/biuld-native.py
+        run:  python ${{ github.workspace }}/.ci/build-native.py
       - name: Native artifact
         uses: actions/upload-artifact@v2
         with:
@@ -64,6 +64,7 @@ jobs:
         run:  |
           python .ci/build-ios.py
       - name: iOS artifact
+        if: startsWith(matrix.os, 'macos')
         uses: actions/upload-artifact@v2
         with:
           name: ios-${{ matrix.os }}
