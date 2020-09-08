@@ -11,40 +11,45 @@ on:
       - "*"
 
 jobs:
-  build:
-    name: build-all
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - windows-latest
-          - macos-latest
-          - ubuntu-latest
+  windows:
+    runs-on: windows-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v2
         with:
           python-version: '3.x'
-
       - name: Install dependencies
         run: |
             python -m pip install --upgrade pip setuptools wheel
-            pip install conan conan_package_tools
+            pip install conan
             conan remote add conan-burrito ${{ env.CONAN_UPLOAD }}
             conan user -p ${{ env.CONAN_PASSWORD }} -r conan-burrito ${{ env.CONAN_LOGIN_USERNAME }}
-
       - name: Build native
         run:  python ${{ github.workspace }}/.ci/build-native.py
-      - name: Native artifact
-        uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v2
         with:
           name: native-${{ matrix.os }}
           path: _build/bin/
 
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+            python -m pip install --upgrade pip setuptools wheel
+            pip install conan
+            conan remote add conan-burrito ${{ env.CONAN_UPLOAD }}
+            conan user -p ${{ env.CONAN_PASSWORD }} -r conan-burrito ${{ env.CONAN_LOGIN_USERNAME }}
+      - name: Build native
+        run:  python ${{ github.workspace }}/.ci/build-native.py
+      - uses: actions/upload-artifact@v2
+        with:
+          name: native-${{ matrix.os }}
+          path: _build/bin/
       - name: Get Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.0.7
       - name: Setup requirements
@@ -61,14 +66,31 @@ jobs:
         with:
           name: android-${{ matrix.os }}
           path: android/app/build/outputs/apk/
-
       - name: Build for iOS
-        if: startsWith(matrix.os, 'macos')
         run:  |
           python .ci/build-ios.py
-      - name: iOS artifact
-        if: startsWith(matrix.os, 'macos')
-        uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v2
         with:
           name: ios-${{ matrix.os }}
           path: _build/bin/
+
+  ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: |
+            python -m pip install --upgrade pip setuptools wheel
+            pip install conan
+            conan remote add conan-burrito ${{ env.CONAN_UPLOAD }}
+            conan user -p ${{ env.CONAN_PASSWORD }} -r conan-burrito ${{ env.CONAN_LOGIN_USERNAME }}
+      - name: Build native
+        run:  python ${{ github.workspace }}/.ci/build-native.py
+      - uses: actions/upload-artifact@v2
+        with:
+          name: native-${{ matrix.os }}
+          path: _build/bin/
+
