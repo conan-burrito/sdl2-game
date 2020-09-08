@@ -45,8 +45,9 @@ jobs:
           name: native-${{ matrix.os }}
           path: _build/bin/
 
-      - name: Setup Android SDK
+      - name: Get Android SDK
         uses: malinskiy/action-android/install-sdk@release/0.0.7
+      - name: Setup requirements
         run: |
             sdkmanager "ndk-bundle;21.3.6528147"
             sdkmanager "cmake;3.10.2"
